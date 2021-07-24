@@ -36,10 +36,6 @@ class ProxyFinder implements ProxyFinderInterface
         }
     }
 
-    /**
-     * @return array
-     */
-
     #[ArrayShape([
         'verify' => "bool",
         'verify_max_attempt' => "int",

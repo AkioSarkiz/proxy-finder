@@ -28,7 +28,6 @@ class ProxyData implements ProxyDataInterface
     /**
      * @inheritDoc
      */
-
     #[Pure]
     #[ArrayShape(['host' => "string", 'port' => "int", 'type' => "string"])]
     public function toArray(): array
