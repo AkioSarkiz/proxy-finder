@@ -1,0 +1,44 @@
+{
+    "name": "akiosarkiz/proxy-finder",
+    "type": "library",
+    "description": "The proxy finder.",
+    "homepage": "https://github.com/akiosarkiz/proxy-finder",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AkioSarkiz",
+            "email": "akiosarkiz@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpunit/phpunit": "^9.5",
+        "spatie/ray": "^1.28",
+        "vimeo/psalm": "^4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "AkioSarkiz\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AkioSarkiz\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "psalm": "vendor/bin/psalm",
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

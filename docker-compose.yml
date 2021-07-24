@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+
+  php:
+    build: ./docker/php
+    container_name: package_laravel-php
+    environment:
+      XDEBUG_CONFIG: "remote_host=${XDEBUG_HOST:-192.168.220.1} remote_enable=1 remote_port=9001"
+      PHP_IDE_CONFIG: "serverName=Docker"
+    volumes:
+      - .:/var/www
+    networks:
+      - package_laravel-backend
+
+  nginx:
+    image: nginx:alpine
+    container_name: package_laravel-nginx
+    ports:
+      - 90:80
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - package_laravel-backend
+
+
+  pgsql:
+    image: postgres
+    container_name: package_laravel-pgsql
+    volumes:
+      - pgsql-data:/var/lib/postgresql/data
+    environment:
+      TZ: "Europe/Kiev"
+      PGTZ: "Europe/Kiev"
+      POSTGRES_DB: package_laravel
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - 5432:5432
+    networks:
+      - package_laravel-backend
+
+  adminer:
+    image: dpage/pgadmin4
+    container_name: package_laravel-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: antago@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 8989:80
+    networks:
+      - package_laravel-backend
+
+  redis:
+    container_name: package_laravel-redis
+    image: redis:5.0
+    volumes:
+      - redis:/data
+    networks:
+      - package_laravel-backend
+
+networks:
+  package_laravel-backend:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.220.0/28
+
+volumes:
+  pgsql-data:
+    driver: local
+  redis:
+    driver: local
