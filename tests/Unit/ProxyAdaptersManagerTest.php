@@ -25,7 +25,7 @@ class ProxyAdaptersManagerTest extends TestCase
     /**
      * @test
      */
-    public function  not_found_adapter_exception_when_buffer_in_blacklist()
+    public function not_found_adapter_exception_when_buffer_in_blacklist()
     {
         $manager = $this->app->make(ProxyAdaptersManager::class);
 

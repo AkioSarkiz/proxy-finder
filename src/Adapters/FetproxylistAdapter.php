@@ -8,7 +8,6 @@ use AkioSarkiz\Contracts\ProxyDataInterface;
 use AkioSarkiz\Contracts\ProxyFinderAdapterInterface;
 use AkioSarkiz\Exceptions\ProxyNotFound;
 use AkioSarkiz\ProxyData;
-use AkioSarkiz\Traits\HasCheckerProxy;
 use Arr;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -33,7 +32,7 @@ class FetproxylistAdapter extends AbstractAdapter implements ProxyFinderAdapterI
                 (string) Arr::get($data, 'protocol'),
             );
 
-            if ($this->options['verify'] && !$this->checkProxy($proxyData, $this->options['verify_timeout'])) {
+            if ($this->options['verify'] && ! $this->checkProxy($proxyData, $this->options['verify_timeout'])) {
                 if ($this->currentAttempt >= $this->options['verify_max_attempt']) {
                     throw new ProxyNotFound();
                 }
