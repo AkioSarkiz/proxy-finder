@@ -59,13 +59,13 @@ class ProxyAdaptersManager
     public function get(): ProxyFinderAdapterInterface
     {
         foreach ($this->adapters as $adapter) {
-            if (!in_array($adapter::class, $this->blacklist)) {
+            if (! in_array($adapter::class, $this->blacklist)) {
                 $this->current = $adapter;
 
                 return $adapter;
             }
         }
 
-        throw new ProxyAdapterNotFound;
+        throw new ProxyAdapterNotFound();
     }
 }

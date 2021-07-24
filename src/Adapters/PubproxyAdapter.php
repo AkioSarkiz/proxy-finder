@@ -12,7 +12,6 @@ use AkioSarkiz\Traits\HasCheckerProxy;
 use Arr;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\Cache;
 
 class PubproxyAdapter implements ProxyFinderAdapterInterface
 {
@@ -65,7 +64,7 @@ class PubproxyAdapter implements ProxyFinderAdapterInterface
                 Arr::get($data[0], 'type'),
             );
 
-            if ($this->options['verify'] && !$this->checkProxy($proxyData, $this->options['verify_timeout'])) {
+            if ($this->options['verify'] && ! $this->checkProxy($proxyData, $this->options['verify_timeout'])) {
                 if ($this->currentAttempt >= $this->options['verify_max_attempt']) {
                     throw new ProxyNotFound();
                 }

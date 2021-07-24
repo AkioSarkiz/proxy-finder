@@ -6,7 +6,6 @@ namespace AkioSarkiz;
 
 use AkioSarkiz\Contracts\ProxyDataInterface;
 use AkioSarkiz\Contracts\ProxyFinderInterface;
-use AkioSarkiz\Exceptions\ProxyAdapterNotFound;
 use JetBrains\PhpStorm\ArrayShape;
 use Throwable;
 
@@ -44,7 +43,7 @@ class ProxyFinder implements ProxyFinderInterface
     #[ArrayShape([
         'verify' => "bool",
         'verify_max_attempt' => "int",
-        'verify_timeout' => "int"
+        'verify_timeout' => "int",
     ])]
     private function getOptions(): array
     {

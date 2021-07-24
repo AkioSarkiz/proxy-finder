@@ -42,7 +42,7 @@ class ProxyscanAdapter extends AbstractAdapter implements ProxyFinderAdapterInte
                 )
             );
 
-            if ($this->options['verify'] && !$this->checkProxy($proxyData, $this->options['verify_timeout'])) {
+            if ($this->options['verify'] && ! $this->checkProxy($proxyData, $this->options['verify_timeout'])) {
                 if ($this->currentAttempt >= $this->options['verify_max_attempt']) {
                     throw new ProxyNotFound();
                 }
