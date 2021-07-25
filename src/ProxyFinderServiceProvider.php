@@ -31,5 +31,6 @@ class ProxyFinderServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'proxy_finder');
 
         $this->app->bind(ProxyFinderInterface::class, ProxyFinder::class);
+        $this->app->bind('proxy_finder', ProxyFinderInterface::class);
     }
 }

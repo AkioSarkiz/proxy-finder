@@ -14,6 +14,26 @@ return [
 
     'verify' => true,
 
+    /*
+     |--------------------------------------------------------------------
+     | Verify host
+     |--------------------------------------------------------------------
+     |
+     | Host for ping proxy. This can be useful if you need to check proxies for a specific host.
+     | By default, host - google, it because google never down.
+     |
+     */
+
+    'verify_host' => 'https://google.com',
+
+    /*
+     |--------------------------------------------------------------------
+     | Proxy adapters
+     |--------------------------------------------------------------------
+     |
+     | ProxyFinder adapters use this adapters for finding proxy.
+     |
+     */
 
     'adapters' => [
         \AkioSarkiz\Adapters\ProxyscanAdapter::class,
@@ -49,5 +69,4 @@ return [
 
     ],
 
-    'pubproxy_key' => null,
 ];

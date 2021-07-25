@@ -32,7 +32,7 @@ class GimmeproxyAdapter extends AbstractAdapter implements ProxyFinderAdapterInt
                 (string) Arr::get($data, 'protocol'),
             );
 
-            if ($this->options['verify'] && ! $this->checkProxy($proxyData, $this->options['verify_timeout'])) {
+            if ($this->options['verify'] && !$this->checkProxy($proxyData, $this->options['verify_timeout'])) {
                 if ($this->currentAttempt >= $this->options['verify_max_attempt']) {
                     throw new ProxyNotFound();
                 }
@@ -53,5 +53,19 @@ class GimmeproxyAdapter extends AbstractAdapter implements ProxyFinderAdapterInt
         return self::BASE_URL
             . '?key=' . config('proxy_finder.services.proxy11.key')
             . '&limit=1';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSupportedParams(): array
+    {
+        return [
+            'country',
+            'not_country',
+            'level',
+            'type',
+            'ping',
+        ];
     }
 }

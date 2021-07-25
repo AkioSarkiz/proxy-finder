@@ -1,55 +1,58 @@
 {
-    "name": "akiosarkiz/proxy-finder",
-    "type": "library",
-    "description": "The proxy finder.",
-    "homepage": "https://github.com/akiosarkiz/proxy-finder",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "AkioSarkiz",
-            "email": "akiosarkiz@gmail.com",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": "^8.0",
-        "guzzlehttp/guzzle": "^7.3"
-    },
-    "require-dev": {
-        "brianium/paratest": "^6.3",
-        "friendsofphp/php-cs-fixer": "^3.0",
-        "jetbrains/phpstorm-attributes": "^1.0",
-        "orchestra/testbench": "^6.0",
-        "phpunit/phpunit": "^9.5",
-        "spatie/ray": "^1.28",
-        "vimeo/psalm": "^4.8"
-    },
-    "autoload": {
-        "psr-4": {
-            "AkioSarkiz\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "AkioSarkiz\\Tests\\": "tests"
-        }
-    },
-    "scripts": {
-        "psalm": "vendor/bin/psalm",
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
-        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "AkioSarkiz\\ProxyFinderServiceProvider"
-            ]
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+  "name": "akiosarkiz/proxy-finder",
+  "type": "library",
+  "description": "The proxy finder.",
+  "homepage": "https://github.com/akiosarkiz/proxy-finder",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "AkioSarkiz",
+      "email": "akiosarkiz@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "guzzlehttp/guzzle": "^7.3"
+  },
+  "require-dev": {
+    "brianium/paratest": "^6.3",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "jetbrains/phpstorm-attributes": "^1.0",
+    "orchestra/testbench": "^6.0",
+    "phpunit/phpunit": "^9.5",
+    "spatie/ray": "^1.28",
+    "vimeo/psalm": "^4.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "AkioSarkiz\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AkioSarkiz\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "psalm": "vendor/bin/psalm",
+    "test": "vendor/bin/phpunit",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+    "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "AkioSarkiz\\ProxyFinderServiceProvider"
+      ],
+      "aliases": {
+        "ProxyFinder": "AkioSarkiz\\Facades\\ProxyFinder"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

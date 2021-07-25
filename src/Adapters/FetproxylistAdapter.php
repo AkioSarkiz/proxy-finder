@@ -6,45 +6,49 @@ namespace AkioSarkiz\Adapters;
 
 use AkioSarkiz\Contracts\ProxyDataInterface;
 use AkioSarkiz\Contracts\ProxyFinderAdapterInterface;
-use AkioSarkiz\Exceptions\ProxyNotFound;
 use AkioSarkiz\ProxyData;
 use Arr;
-use GuzzleHttp\Exception\GuzzleException;
 
 class FetproxylistAdapter extends AbstractAdapter implements ProxyFinderAdapterInterface
 {
-    private const BASE_URL = 'https://api.getproxylist.com/proxy';
-
     /**
      * @inheritDoc
      */
     public function find(array $options): ProxyDataInterface
     {
-        $this->options = $options;
+        return $this->baseFind($options);
+    }
 
-        try {
-            $response = $this->client->get(self::BASE_URL);
-            $data = json_decode($response->getBody()->getContents(), true);
+    /**
+     * @inheritDoc
+     */
+    protected function getBaseUrl(): string
+    {
+        return 'https://api.getproxylist.com/proxy';
+    }
 
-            $proxyData = new ProxyData(
-                (string) Arr::get($data, 'Ip'),
-                (int) Arr::get($data, 'Port'),
-                (string) Arr::get($data, 'protocol'),
-            );
+    /**
+     * @inheritDoc
+     */
+    protected function getProxyData(array $data): ProxyDataInterface
+    {
+        return new ProxyData(
+            (string) Arr::get($data, 'ip'),
+            (int) Arr::get($data, 'port'),
+            (string) Arr::get($data, 'protocol'),
+        );
+    }
 
-            if ($this->options['verify'] && ! $this->checkProxy($proxyData, $this->options['verify_timeout'])) {
-                if ($this->currentAttempt >= $this->options['verify_max_attempt']) {
-                    throw new ProxyNotFound();
-                }
-
-                $this->currentAttempt++;
-
-                return $this->find($this->options);
-            }
-
-            return $proxyData;
-        } catch (GuzzleException) {
-            throw new ProxyNotFound();
-        }
+    /**
+     * @inheritDoc
+     */
+    public function getSupportedParams(): array
+    {
+        return [
+            'country',
+            'not_country',
+            'level',
+            'type',
+        ];
     }
 }

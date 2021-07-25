@@ -8,23 +8,13 @@ use AkioSarkiz\Contracts\ProxyDataInterface;
 use AkioSarkiz\Contracts\ProxyFinderAdapterInterface;
 use AkioSarkiz\Exceptions\ProxyNotFound;
 use AkioSarkiz\ProxyData;
-use AkioSarkiz\Traits\HasCheckerProxy;
 use Arr;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
-class PubproxyAdapter implements ProxyFinderAdapterInterface
+class PubproxyAdapter extends AbstractAdapter implements ProxyFinderAdapterInterface
 {
-    use HasCheckerProxy;
-
     private const BASE_URL = 'http://pubproxy.com/api/proxy?format=json&';
-
-    /**
-     * Current attempt get proxy.
-     *
-     * @var int
-     */
-    private int $currentAttempt = 1;
 
     /**
      * Count errors.
@@ -32,11 +22,6 @@ class PubproxyAdapter implements ProxyFinderAdapterInterface
      * @var int
      */
     private int $httpErrors = 0;
-
-    /**
-     * @var array|null
-     */
-    private ?array $options;
 
     /**
      * @inheritDoc
@@ -64,7 +49,7 @@ class PubproxyAdapter implements ProxyFinderAdapterInterface
                 Arr::get($data[0], 'type'),
             );
 
-            if ($this->options['verify'] && ! $this->checkProxy($proxyData, $this->options['verify_timeout'])) {
+            if ($this->options['verify'] && !$this->checkProxy($proxyData, $this->options['verify_timeout'])) {
                 if ($this->currentAttempt >= $this->options['verify_max_attempt']) {
                     throw new ProxyNotFound();
                 }
@@ -94,5 +79,19 @@ class PubproxyAdapter implements ProxyFinderAdapterInterface
     {
         return self::BASE_URL
             . "&key=" . config_path('proxy_finder.services.pubproxy.key');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSupportedParams(): array
+    {
+        return [
+            'country',
+            'not_country',
+            'level',
+            'type',
+            'ping',
+        ];
     }
 }

@@ -26,8 +26,8 @@ interface ProxyDataInterface extends Stringable, Arrayable
     /**
      * Get proxy type.
      *
-     * @example http,http,socks4,socks5
      * @return string
+     * @example http,http,socks4,socks5
      */
     public function getType(): string;
 }
