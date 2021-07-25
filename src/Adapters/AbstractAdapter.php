@@ -12,7 +12,7 @@ use Arr;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
-class AbstractAdapter
+abstract class AbstractAdapter
 {
     use HasCheckerProxy;
 
