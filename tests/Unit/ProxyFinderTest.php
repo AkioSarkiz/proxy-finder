@@ -9,6 +9,7 @@ use AkioSarkiz\Contracts\ProxyFinderInterface;
 use AkioSarkiz\Tests\TestCase;
 use AkioSarkiz\Traits\HasCheckerProxy;
 use Config;
+use ipinfo\ipinfo\IPinfo;
 
 class ProxyFinderTest extends TestCase
 {
@@ -25,7 +26,7 @@ class ProxyFinderTest extends TestCase
         $proxyData = $finder->find();
 
         $this->assertInstanceOf(ProxyDataInterface::class, $proxyData);
-        $this->assertTrue($this->checkProxy($proxyData, 30));
+        $this->assertTrue($this->checkProxyLive($proxyData, 30));
     }
 
     /**
@@ -39,5 +40,27 @@ class ProxyFinderTest extends TestCase
         $proxyData = $finder->find();
 
         $this->assertInstanceOf(ProxyDataInterface::class, $proxyData);
+    }
+
+    /**
+     * @test
+     */
+    public function find_proxy_with_param_country(): void
+    {
+        $countries = ['ua', 'br', 'ru', 'ar', 'us',];
+        $finder = $this->app->make(ProxyFinderInterface::class);
+        $proxyInfo = new IPinfo();
+
+        foreach ($countries as $country) {
+            $proxyData = $finder->find([
+                'country' => [$country],
+            ]);
+
+            $this->assertInstanceOf(ProxyDataInterface::class, $proxyData);
+            $this->assertSame(
+                strtolower($proxyInfo->getDetails($proxyData->getIp())->all['country']),
+                $country
+            );
+        }
     }
 }

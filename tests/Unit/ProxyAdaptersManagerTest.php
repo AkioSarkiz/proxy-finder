@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AkioSarkiz\Tests\Unit;
 
+use AkioSarkiz\Adapters\ProxyscanAdapter;
 use AkioSarkiz\Contracts\ProxyFinderAdapterInterface;
 use AkioSarkiz\Exceptions\ProxyAdapterNotFound;
 use AkioSarkiz\ProxyAdaptersManager;
@@ -19,7 +20,12 @@ class ProxyAdaptersManagerTest extends TestCase
         $manager = $this->app->make(ProxyAdaptersManager::class);
 
         $this->expectException(ProxyAdapterNotFound::class);
-        $manager->get();
+        $manager->getAdapter([
+            'country' => [],
+            'not_country' => [],
+            'level' => [],
+            'type' => [],
+        ]);
     }
 
     /**
@@ -30,13 +36,25 @@ class ProxyAdaptersManagerTest extends TestCase
         $manager = $this->app->make(ProxyAdaptersManager::class);
 
         $manager->add(
-            $this->mock(ProxyFinderAdapterInterface::class)
+            app(ProxyscanAdapter::class),
         );
 
-        $this->assertInstanceOf(ProxyFinderAdapterInterface::class, $manager->get());
+        $adapter = $manager->getAdapter([
+            'country' => [],
+            'not_country' => [],
+            'level' => [],
+            'type' => [],
+        ]);
+
+        $this->assertInstanceOf(ProxyFinderAdapterInterface::class, $adapter);
         $manager->ignoreCurrent();
 
         $this->expectException(ProxyAdapterNotFound::class);
-        $manager->get();
+        $manager->getAdapter([
+            'country' => [],
+            'not_country' => [],
+            'level' => [],
+            'type' => [],
+        ]);
     }
 }

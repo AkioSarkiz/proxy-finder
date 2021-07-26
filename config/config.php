@@ -39,7 +39,6 @@ return [
         \AkioSarkiz\Adapters\ProxyscanAdapter::class,
         \AkioSarkiz\Adapters\FetproxylistAdapter::class,
         \AkioSarkiz\Adapters\GimmeproxyAdapter::class,
-        //\AkioSarkiz\Adapters\PubproxyAdapter::class,
     ],
 
     /*
@@ -52,21 +51,7 @@ return [
     */
 
     'services' => [
-
-        /*
-         |--------------------------------------------------------------------
-         | Pubproxy
-         |--------------------------------------------------------------------
-         |
-         | website: http://pubproxy.com/
-         | adapter: AkioSarkiz\Adapters\PubproxyAdapter
-         |
-         */
-
-        'pubproxy' => [
-            'key' => null,
-        ],
-
+        //
     ],
 
 ];

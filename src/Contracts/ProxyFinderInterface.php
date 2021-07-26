@@ -21,9 +21,6 @@ interface ProxyFinderInterface
      *
      *   // Proxy Protocol
      *   'type' => array, (default: [], enum: 'socks5', 'socks4', 'https')
-     *
-     *   // How fast you get a response after you've sent out a request
-     *   'ping' => int, (default: 0),
      * ]
      * @return ProxyDataInterface
      * @throws ProxyAdapterNotFound

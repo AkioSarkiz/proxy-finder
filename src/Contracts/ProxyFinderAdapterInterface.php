@@ -28,9 +28,6 @@ interface ProxyFinderAdapterInterface
      *
      *     // Proxy Protocol
      *     'type' => array, (default: [], enum: 'socks5', 'socks4', 'https')
-     *
-     *     // How fast you get a response after you've sent out a request
-     *     'ping' => int, (default: 0),
      *   ],
      * ]
      * @return ProxyDataInterface
@@ -42,6 +39,12 @@ interface ProxyFinderAdapterInterface
      * Get all supported params. It using when user set params.
      * If adapter not supported the param, then ProxyFinder will ignore him.
      *
+     * @example [
+     *  'country',
+     *  'not_country',
+     *  'level',
+     *  'type',
+     * ]
      * @return array
      */
     public function getSupportedParams(): array;

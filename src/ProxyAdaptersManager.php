@@ -53,19 +53,51 @@ class ProxyAdaptersManager
     }
 
     /**
+     * Get adapter from collection.
+     *
+     * @param  array  $params
      * @return ProxyFinderAdapterInterface
      * @throws ProxyAdapterNotFound
      */
-    public function get(): ProxyFinderAdapterInterface
+    public function getAdapter(array $params): ProxyFinderAdapterInterface
     {
-        foreach ($this->adapters as $adapter) {
-            if (!in_array($adapter::class, $this->blacklist)) {
-                $this->current = $adapter;
+        $adapters = $this->validateAdapters($params);
 
-                return $adapter;
-            }
+        if (!count($adapters)) {
+            throw new ProxyAdapterNotFound();
         }
 
-        throw new ProxyAdapterNotFound();
+        $this->current = $adapters[0];
+
+        return $this->current;
+    }
+
+    /**
+     * Get validated adapters.
+     *
+     * @param  array  $params
+     * @return array
+     */
+    private function validateAdapters(array $params): array
+    {
+        $valid = [];
+
+        foreach ($this->adapters as $adapter) {
+            if (in_array($adapter::class, $this->blacklist)) {
+                continue;
+            }
+
+            $supportedParams = $adapter->getSupportedParams();
+
+            foreach ($params as $param => $value) {
+                if (!in_array($param, $supportedParams)) {
+                    continue 2;
+                }
+            }
+
+            $valid[] = $adapter;
+        }
+
+        return $valid;
     }
 }

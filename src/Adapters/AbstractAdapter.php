@@ -11,6 +11,8 @@ use AkioSarkiz\Traits\HasCheckerProxy;
 use Arr;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use ipinfo\ipinfo\IPinfo;
+use ipinfo\ipinfo\IPinfoException;
 
 abstract class AbstractAdapter
 {
@@ -45,7 +47,7 @@ abstract class AbstractAdapter
      *
      * @param  array  $options
      * @return ProxyDataInterface
-     * @throws ProxyNotFound
+     * @throws ProxyNotFound|IPinfoException
      */
     protected function baseFind(array $options): ProxyDataInterface
     {
@@ -105,11 +107,11 @@ abstract class AbstractAdapter
      *
      * @param  ProxyDataInterface  $proxyData
      * @return ProxyDataInterface
-     * @throws ProxyNotFound
+     * @throws ProxyNotFound|IPinfoException
      */
     protected function afterMiddleware(ProxyDataInterface $proxyData): ProxyDataInterface
     {
-        if ($this->options['verify'] && !$this->checkProxy($proxyData, $this->options['verify_timeout'])) {
+        if ($this->options['verify'] && !$this->checkProxyLive($proxyData, $this->options['verify_timeout'])) {
             if ($this->currentAttempt >= $this->options['verify_max_attempt']) {
                 throw new ProxyNotFound();
             }
@@ -119,6 +121,44 @@ abstract class AbstractAdapter
             return $this->baseFind($this->options);
         }
 
+        if (array_key_exists('country', $this->options['params'])
+            && !in_array($this->getProxyCountry($proxyData), $this->options['params']['country'])
+        ) {
+            return $this->baseFind($this->options);
+        }
+
         return $proxyData;
+    }
+
+    /**
+     * Generate url param.
+     *
+     * @param  string  $key
+     * @param  string|null  $filter
+     * @return string
+     */
+    public function addUrlParam(string $key, ?string $filter = null): string
+    {
+        $filter = $filter ?? $key;
+
+        if (!Arr::exists($this->options['params'], $key)) {
+            return '';
+        }
+
+        return '&' . $filter . '=' . implode(',', $this->options['params'][$key]);
+    }
+
+    /**
+     * Get proxy country.
+     *
+     * @param  ProxyDataInterface  $proxyData
+     * @return string
+     * @throws IPinfoException
+     */
+    protected function getProxyCountry(ProxyDataInterface $proxyData): string
+    {
+        $proxyInfo = new IPinfo();
+
+        return strtolower($proxyInfo->getDetails($proxyData->getIp())->all['country']);
     }
 }

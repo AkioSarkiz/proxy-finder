@@ -24,8 +24,11 @@ class ProxyscanAdapter extends AbstractAdapter implements ProxyFinderAdapterInte
      */
     protected function getBaseUrl(): string
     {
-        return 'https://www.proxyscan.io/api/proxy?'
-            . "limit=1";
+        return 'https://www.proxyscan.io/api/proxy?limit=1'
+            . $this->addUrlParam('country')
+            . $this->addUrlParam('not_country')
+            . $this->addUrlParam('level')
+            . $this->addUrlParam('type');
     }
 
     /**
@@ -52,7 +55,6 @@ class ProxyscanAdapter extends AbstractAdapter implements ProxyFinderAdapterInte
             'not_country',
             'level',
             'type',
-            'ping',
         ];
     }
 }

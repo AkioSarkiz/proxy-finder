@@ -17,7 +17,7 @@ trait HasCheckerProxy
      * @param  int  $timeout
      * @return bool
      */
-    protected function checkProxy(ProxyDataInterface $proxyData, int $timeout): bool
+    protected function checkProxyLive(ProxyDataInterface $proxyData, int $timeout): bool
     {
         try {
             $client = new Client(['timeout' => $timeout]);

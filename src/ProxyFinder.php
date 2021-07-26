@@ -33,8 +33,7 @@ class ProxyFinder implements ProxyFinderInterface
      */
     public function find(array $params = []): ProxyDataInterface
     {
-        $this->formatParams($params);
-        $proxyAdapter = $this->proxyAdaptersManager->get();
+        $proxyAdapter = $this->proxyAdaptersManager->getAdapter($params);
 
         try {
             return $proxyAdapter->find(
@@ -62,24 +61,5 @@ class ProxyFinder implements ProxyFinderInterface
             'verify_timeout' => 5,
             'params' => $params,
         ];
-    }
-
-    /**
-     * Add default values if not exists.
-     *
-     * @param  array  $params
-     * @return void
-     */
-    public function formatParams(array &$params): void
-    {
-        $baseParams = [
-            'country' => [],
-            'not_country' => [],
-            'level' => [],
-            'type' => [],
-            'ping' => 0,
-        ];
-
-        $params = array_merge($baseParams, $params);
     }
 }
