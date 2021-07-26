@@ -16,6 +16,6 @@ class ProxyAdapterNotFound extends ProxyFinderException
     #[Pure]
     public function __construct()
     {
-        parent::__construct('Proxy adapter', 1, null);
+        parent::__construct('Proxy adapter', 1);
     }
 }

@@ -21,7 +21,7 @@ trait HasCheckerProxy
     {
         try {
             $client = new Client(['timeout' => $timeout]);
-            $response = $client->get('https://google.com', ['proxy' => (string) $proxyData, 'timeout' => 5]);
+            $response = $client->get(config('proxy_finder.verify_host'), ['proxy' => (string) $proxyData,]);
 
             return $response->getStatusCode() === 200;
         } catch (Throwable) {

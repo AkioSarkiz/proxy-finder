@@ -8,11 +8,13 @@ use AkioSarkiz\Contracts\ProxyDataInterface;
 use AkioSarkiz\Contracts\ProxyFinderAdapterInterface;
 use AkioSarkiz\ProxyData;
 use Arr;
+use ipinfo\ipinfo\IPinfoException;
 
 class ProxyscanAdapter extends AbstractAdapter implements ProxyFinderAdapterInterface
 {
     /**
      * @inheritDoc
+     * @throws IPinfoException
      */
     public function find(array $options): ProxyDataInterface
     {

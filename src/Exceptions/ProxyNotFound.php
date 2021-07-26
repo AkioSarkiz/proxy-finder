@@ -17,6 +17,6 @@ class ProxyNotFound extends ProxyFinderException
     public function __construct(
         string $message = 'Proxy not found'
     ) {
-        parent::__construct($message, 2, null);
+        parent::__construct($message, 2);
     }
 }
